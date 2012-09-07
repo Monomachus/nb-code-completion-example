@@ -22,7 +22,7 @@ public class CountriesCompletionDocumentation implements CompletionDocumentation
 
     @Override
     public String getText() {
-        return "Information about " + item.text;
+        return "Information about " + item.getText();
     }
 
     @Override
