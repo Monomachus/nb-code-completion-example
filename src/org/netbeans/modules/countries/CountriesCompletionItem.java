@@ -31,6 +31,8 @@ import org.openide.util.ImageUtilities;
 public class CountriesCompletionItem implements CompletionItem {
    
     private String text;
+
+   
     private static ImageIcon fieldIcon =
             new ImageIcon(ImageUtilities.loadImage("org/netbeans/modules/countries/icon.png"));
     private static Color fieldColor = Color.decode("0x0000B2");
@@ -76,7 +78,13 @@ public class CountriesCompletionItem implements CompletionItem {
 
     @Override
     public CompletionTask createDocumentationTask() {
-        return null;
+        return new AsyncCompletionTask(new AsyncCompletionQuery() {
+            @Override
+            protected void query(CompletionResultSet completionResultSet, Document document, int i) {
+                completionResultSet.setDocumentation(new CountriesCompletionDocumentation(CountriesCompletionItem.this));
+                completionResultSet.finish();
+            }
+        });
     }
 
    @Override
@@ -109,6 +117,10 @@ public class CountriesCompletionItem implements CompletionItem {
 
     @Override
     public CharSequence getInsertPrefix() {
+        return text;
+    }
+    
+    public String getText() {
         return text;
     }
 }
